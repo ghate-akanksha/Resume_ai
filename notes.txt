@@ -4,3 +4,19 @@ git remote -v
 git push origin main
 cd frontend
 npm  create vite@latest .
+npm run dev
+script package.json 
+npm run dev and npm start
+git status ,git branch 
+git add .
+git status
+git commit -m "initial commit"
+git branch -M main
+git push -u origin main
+
+echo "# ResumeAI" > README.md
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git push -u origin main
+git pull origin main --rebase
