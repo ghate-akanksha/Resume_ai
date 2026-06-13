@@ -1,0 +1,6 @@
+git init 
+git remote add orgin url
+git remote -v 
+git push origin main
+cd frontend
+npm  create vite@latest .
