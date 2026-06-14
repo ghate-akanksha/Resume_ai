@@ -1,0 +1,101 @@
+.reg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reg-card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 420px;
+}
+
+.reg-title {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #2c3e50;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.reg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reg-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reg-group label {
+  font-size: 14px;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.reg-group input {
+  padding: 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+}
+
+.reg-group input:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.reg-btn {
+  background-color: #10b981;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 10px;
+}
+
+.reg-btn:hover {
+  background-color: #059669;
+}
+
+.reg-btn:disabled {
+  background-color: #a7f3d0;
+  cursor: not-allowed;
+}
+
+.reg-error {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.reg-success {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  text-align: center;
+}
