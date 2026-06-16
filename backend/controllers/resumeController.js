@@ -2,6 +2,7 @@ const fs = require("fs");
 const pdfParse = require("pdf-parse");
 
 const Resume = require("../models/Resume");
+const extractSkills = require("../utils/skillExtractor");
 
 
 // Upload Resume
@@ -15,21 +16,37 @@ const uploadResume = async (req, res) => {
       });
     }
 
-    const dataBuffer = fs.readFileSync(
-      req.file.path
-    );
+    const dataBuffer =
+      fs.readFileSync(req.file.path);
 
-    const pdfData = await pdfParse(
-      dataBuffer
-    );
+    const pdfData =
+      await pdfParse(dataBuffer);
 
-    const resume = await Resume.create({
-      originalName: req.file.originalname,
-      storedName: req.file.filename,
-      filePath: req.file.path,
-      size: req.file.size,
-      extractedText: pdfData.text,
-    });
+    const extractedText =
+      pdfData.text;
+
+    const skills =
+      extractSkills(extractedText);
+
+    const resume =
+      await Resume.create({
+
+        originalName:
+          req.file.originalname,
+
+        storedName:
+          req.file.filename,
+
+        filePath:
+          req.file.path,
+
+        size:
+          req.file.size,
+
+        extractedText,
+
+        skills,
+      });
 
     res.status(201).json({
       success: true,
@@ -55,7 +72,8 @@ const uploadResume = async (req, res) => {
 const getAllResumes = async (req, res) => {
   try {
 
-    const resumes = await Resume.find()
+    const resumes =
+      await Resume.find()
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -79,9 +97,10 @@ const getAllResumes = async (req, res) => {
 const getResumeById = async (req, res) => {
   try {
 
-    const resume = await Resume.findById(
-      req.params.id
-    );
+    const resume =
+      await Resume.findById(
+        req.params.id
+      );
 
     if (!resume) {
       return res.status(404).json({
@@ -110,9 +129,10 @@ const getResumeById = async (req, res) => {
 const updateResume = async (req, res) => {
   try {
 
-    const resume = await Resume.findById(
-      req.params.id
-    );
+    const resume =
+      await Resume.findById(
+        req.params.id
+      );
 
     if (!resume) {
       return res.status(404).json({
@@ -130,20 +150,32 @@ const updateResume = async (req, res) => {
 
     if (
       resume.filePath &&
-      fs.existsSync(resume.filePath)
+      fs.existsSync(
+        resume.filePath
+      )
     ) {
       fs.unlinkSync(
         resume.filePath
       );
     }
 
-    const dataBuffer = fs.readFileSync(
-      req.file.path
-    );
+    const dataBuffer =
+      fs.readFileSync(
+        req.file.path
+      );
 
-    const pdfData = await pdfParse(
-      dataBuffer
-    );
+    const pdfData =
+      await pdfParse(
+        dataBuffer
+      );
+
+    const extractedText =
+      pdfData.text;
+
+    const skills =
+      extractSkills(
+        extractedText
+      );
 
     resume.originalName =
       req.file.originalname;
@@ -158,7 +190,10 @@ const updateResume = async (req, res) => {
       req.file.size;
 
     resume.extractedText =
-      pdfData.text;
+      extractedText;
+
+    resume.skills =
+      skills;
 
     await resume.save();
 
@@ -186,9 +221,10 @@ const updateResume = async (req, res) => {
 const deleteResume = async (req, res) => {
   try {
 
-    const resume = await Resume.findById(
-      req.params.id
-    );
+    const resume =
+      await Resume.findById(
+        req.params.id
+      );
 
     if (!resume) {
       return res.status(404).json({
@@ -199,7 +235,9 @@ const deleteResume = async (req, res) => {
 
     if (
       resume.filePath &&
-      fs.existsSync(resume.filePath)
+      fs.existsSync(
+        resume.filePath
+      )
     ) {
       fs.unlinkSync(
         resume.filePath

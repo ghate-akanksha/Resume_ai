@@ -11,6 +11,11 @@ const resumeSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+     skills: {
+      type: [String],
+      default: [],
+    },
+    
   },
   {
     timestamps: true,
