@@ -2,29 +2,14 @@ const mongoose = require("mongoose");
 
 const resumeSchema = new mongoose.Schema(
   {
-    originalName: {
+    originalName: String,
+    storedName: String,
+    filePath: String,
+    size: Number,
+
+    extractedText: {
       type: String,
-      required: true,
-    },
-
-    storedName: {
-      type: String,
-      required: true,
-    },
-
-    filePath: {
-      type: String,
-      required: true,
-    },
-
-    size: {
-      type: Number,
-      required: true,
-    },
-
-    uploadedAt: {
-      type: Date,
-      default: Date.now,
+      default: "",
     },
   },
   {

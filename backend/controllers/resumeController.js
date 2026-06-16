@@ -1,4 +1,6 @@
 const fs = require("fs");
+const pdfParse = require("pdf-parse");
+
 const Resume = require("../models/Resume");
 
 
@@ -13,20 +15,32 @@ const uploadResume = async (req, res) => {
       });
     }
 
+    const dataBuffer = fs.readFileSync(
+      req.file.path
+    );
+
+    const pdfData = await pdfParse(
+      dataBuffer
+    );
+
     const resume = await Resume.create({
       originalName: req.file.originalname,
       storedName: req.file.filename,
       filePath: req.file.path,
       size: req.file.size,
+      extractedText: pdfData.text,
     });
 
     res.status(201).json({
       success: true,
-      message: "Resume uploaded successfully",
+      message:
+        "Resume uploaded successfully",
       resume,
     });
 
   } catch (error) {
+
+    console.error(error);
 
     res.status(500).json({
       success: false,
@@ -42,7 +56,7 @@ const getAllResumes = async (req, res) => {
   try {
 
     const resumes = await Resume.find()
-      .sort({ uploadedAt: -1 });
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -110,13 +124,26 @@ const updateResume = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({
         success: false,
-        message: "Please select a new resume",
+        message: "Please upload a resume",
       });
     }
 
-    if (fs.existsSync(resume.filePath)) {
-      fs.unlinkSync(resume.filePath);
+    if (
+      resume.filePath &&
+      fs.existsSync(resume.filePath)
+    ) {
+      fs.unlinkSync(
+        resume.filePath
+      );
     }
+
+    const dataBuffer = fs.readFileSync(
+      req.file.path
+    );
+
+    const pdfData = await pdfParse(
+      dataBuffer
+    );
 
     resume.originalName =
       req.file.originalname;
@@ -130,15 +157,21 @@ const updateResume = async (req, res) => {
     resume.size =
       req.file.size;
 
+    resume.extractedText =
+      pdfData.text;
+
     await resume.save();
 
     res.status(200).json({
       success: true,
-      message: "Resume updated successfully",
+      message:
+        "Resume updated successfully",
       resume,
     });
 
   } catch (error) {
+
+    console.error(error);
 
     res.status(500).json({
       success: false,
@@ -164,15 +197,21 @@ const deleteResume = async (req, res) => {
       });
     }
 
-    if (fs.existsSync(resume.filePath)) {
-      fs.unlinkSync(resume.filePath);
+    if (
+      resume.filePath &&
+      fs.existsSync(resume.filePath)
+    ) {
+      fs.unlinkSync(
+        resume.filePath
+      );
     }
 
     await resume.deleteOne();
 
     res.status(200).json({
       success: true,
-      message: "Resume deleted successfully",
+      message:
+        "Resume deleted successfully",
     });
 
   } catch (error) {
@@ -184,6 +223,7 @@ const deleteResume = async (req, res) => {
 
   }
 };
+
 
 module.exports = {
   uploadResume,
