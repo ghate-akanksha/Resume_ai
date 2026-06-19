@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
+import JobDescription from "../components/Jobdescription";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -38,19 +38,19 @@ const Dashboard = () => {
             </button>
           </div>
 
-          <div className="dashboard-card analysis">
-            <div className="card-top"></div>
+          <div className="dashboard-card job-description">
+  <div className="card-top"></div>
 
-            <h3>Resume Analysis</h3>
+  <h3>Job Description</h3>
 
-            <p>
-              Analyze ATS compatibility and resume quality.
-            </p>
+  <p>
+    Add and manage job descriptions for ATS analysis.
+  </p>
 
-            <button>
-              Launch Module
-            </button>
-          </div>
+  <button onClick={() => navigate("/job-description")}>
+    Add Job Description and analyze ATS
+  </button>
+</div>
 
           <div className="dashboard-card skill">
             <div className="card-top"></div>
@@ -62,7 +62,7 @@ const Dashboard = () => {
             </p>
 
             <button>
-              Launch Module
+              Analyze ATS
             </button>
           </div>
 

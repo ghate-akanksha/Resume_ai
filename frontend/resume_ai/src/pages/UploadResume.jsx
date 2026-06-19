@@ -39,6 +39,17 @@ const UploadResume = () => {
 
       setUploadedResume(response.data.resume);
 
+      // Store Resume ID
+      localStorage.setItem(
+        "resumeId",
+        response.data.resume._id
+      );
+
+      console.log(
+        "Stored Resume ID:",
+        response.data.resume._id
+      );
+
       alert(response.data.message);
 
     } catch (error) {
@@ -68,6 +79,9 @@ const UploadResume = () => {
       setUploadedResume(null);
       setFile(null);
 
+      // Remove Resume ID
+      localStorage.removeItem("resumeId");
+
     } catch (error) {
 
       alert(
@@ -86,7 +100,6 @@ const UploadResume = () => {
     if (!newFile || !uploadedResume) return;
 
     const formData = new FormData();
-
     formData.append("resume", newFile);
 
     try {
@@ -100,6 +113,12 @@ const UploadResume = () => {
 
       setUploadedResume(response.data.resume);
       setFile(newFile);
+
+      // Update Resume ID
+      localStorage.setItem(
+        "resumeId",
+        response.data.resume._id
+      );
 
       alert(response.data.message);
 
